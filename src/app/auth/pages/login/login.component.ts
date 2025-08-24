@@ -21,30 +21,39 @@ export class LoginComponent {
     password: ['', Validators.required]
   })
 
-  onLogin(){
-    this.myForm.markAllAsTouched();
-    if(this.myForm.invalid){
-      return;
-    }
-    this.userService.login(this.myForm.value.username,this.myForm.value.password).subscribe({
-      next: (response)=>{
-        //Guardado de token en local Storage y redirección
-        localStorage.setItem('token',response.token);
-        if (response.role===1){
-            this.router.navigate(['/admin']);
-        }
-        if (response.role===2){
-            this.router.navigate(['/service']);
-        }
-        if (response.role===3){
-            this.router.navigate(['/responsable']);
-        }
-      },
-      error: (error)=>{
-        this.errorMessage.set(error?.error?.Error || 'Error desconocido');
-      }
-    })
+onLogin() {
+  this.myForm.markAllAsTouched();
+  if (this.myForm.invalid) {
+    return;
   }
+
+  this.userService.login(this.myForm.value.username, this.myForm.value.password).subscribe({
+    next: (response) => {
+      localStorage.setItem('access_token', response.access_token || response.token);
+      if (response.refresh_token) {
+        localStorage.setItem('refresh_token', response.refresh_token);
+      }
+
+      // Redirigir según rol
+      switch (response.role) {
+        case 1:
+          this.router.navigate(['/admin']);
+          break;
+        case 2:
+          this.router.navigate(['/service']);
+          break;
+        case 3:
+          this.router.navigate(['/responsable']);
+          break;
+        default:
+          this.router.navigate(['/']);
+      }
+    },
+    error: (error) => {
+      this.errorMessage.set(error?.error?.Error || 'Error desconocido');
+    }
+  });
+}
 
   isInvalid(field:string): boolean {
     return FormUtils.isValidField(this.myForm, field) ?? false;
