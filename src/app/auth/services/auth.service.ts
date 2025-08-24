@@ -17,8 +17,6 @@ interface JwtToken {
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:5000'; // Ajusta según tu backend
-
   constructor(private http: HttpClient) {}
 
   setTokens(accessToken: string, refreshToken?: string) {
@@ -74,7 +72,7 @@ export class AuthService {
     const refreshToken = this.getRefreshToken();
     if (!refreshToken) return throwError(() => new Error('No refresh token'));
 
-    return this.http.post<LoginResponse>(`${environment.baseUrl}/login`, {}, {
+    return this.http.post<LoginResponse>(`${environment.baseUrl}/refresh`, {}, {
       headers: { Authorization: `Bearer ${refreshToken}` }
     }).pipe(
       tap((res: any) => {
