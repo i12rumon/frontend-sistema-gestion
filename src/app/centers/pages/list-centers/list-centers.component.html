@@ -1,0 +1,50 @@
+<div class="flex flex-col items-center">
+<div class="overflow-x-auto w-[50vw] mb-5 bg-base-100 rounded-lg">
+  <table class="table mt-5  text-center">
+    <thead class="rounded-lg">
+      <tr class="bg-red-700 text-white rounded-lg">
+        <th >Id</th>
+        <th>Nombre</th>
+        <th>Tipo</th>
+        <th>
+          <a routerLink="/centers/create-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6v12m6-6H6" />
+            </svg>
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @if((degrees().length) === 0){
+        <td colspan="4" class="text-center" >
+          No hay centros o títulos registrados
+        </td>
+      }
+      @else {
+        @for(degree of degrees(); track $index){
+        <tr >
+          <td>{{degree.degree_id}}</td>
+          <td>{{degree.name}}</td>
+          <td>{{degree.type}}</td>
+          <td class="flex flex-row">
+            <a class="cursor-pointer" [routerLink]="['/centers/edit-center', degree.degree_id]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z" />
+              </svg>
+            </a>
+            <a  class="cursor-pointer"(click)="deleteDegree(degree.degree_id)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
+              </svg>
+            </a>
+          </td>
+        </tr>
+      }
+      }
+    </tbody>
+  </table>
+  <div class="text-center text-red-700">{{errorMessage()}}</div>
+</div>
+</div>
+

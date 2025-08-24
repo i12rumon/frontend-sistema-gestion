@@ -1,0 +1,22 @@
+<app-nav-bar-responsable />
+<div class="m-10 flex flex-col justify-center items-center ">
+  <section class="  w-[150vh] m-3 p-4 flex flex-col  bg-red-700 rounded">
+    <div class="card font-bold text-xl text-white"> Bienvenido {{infoUser()?.name}},</div>
+    <div class="card text-white"> Esta es el Área del Responsable del Centro en el Sistema de Gestión de Planes de Mejora y Convocatorias de Apoyo </div>
+  </section>
+  <div class="flex flex-row">
+    <section class="  w-[72vh] m-3 p-5 flex flex-col justify-center items-center bg-yellow-500 rounded">
+      <div class="card font-bold text-xl "> Número de planes de mejora en el sistema creados</div>
+      <div class="card">{{nPlans()}} </div>
+    </section>
+    <section class="  w-[72vh] m-3 p-5 flex flex-col justify-center items-center bg-yellow-500 rounded">
+      <div class="card font-bold text-xl"> Responsable de:</div>
+      <div class="card">{{infoUser()?.degree}}</div>
+    </section>
+  </div>
+  <section class="  w-[150vh] m-3 p-4 flex flex-col justify-center items-center bg-gray-500 rounded">
+    <div class="card font-bold text-white"> Nota Importante </div>
+    <div class="card text-white">Para visualizar con más detalle los Planes de Mejora, debes acceder a través de la barra de navegación </div>
+  </section>
+</div>
+

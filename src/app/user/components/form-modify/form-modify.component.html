@@ -1,0 +1,67 @@
+<section class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
+  <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">      <div class="card-body">
+        <h1 class="text-center font-bold">
+        @if(user()){ MODIFICAR USUARIO } @else{ CREAR NUEVO USUARIO }
+      </h1>
+    <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()">
+          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Email</label>
+          <input type="email" class="form-control input w-full" formControlName="email"  placeholder="Introduzca el email"/>
+          @if( isInvalid('email')){
+            <p class="text-red-700">{{getErrorText('email')}}</p>
+          }
+          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Nombre</label>
+          <input type="name" class="form-control input w-full" formControlName="name"  placeholder="Introduzca el nombre"/>
+          @if( isInvalid('name')){
+            <p class="text-red-700">{{getErrorText('name')}}</p>
+          }
+          @if(!this.router.url.includes('modify-profile')){
+            <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Nombre de usuario</label>
+            <input type="text" class="form-control input w-full" formControlName="username"  placeholder="Introduzca el nombre de usuario "/>
+            @if( isInvalid('username')){
+              <p class="text-red-700">{{getErrorText('username')}}</p>
+            }
+            <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Contraseña</label>
+            <input type="password" class="form-control input w-full" formControlName="password"  placeholder="Introduzca la contraseña "/>
+            @if( isInvalid('password')){
+              <p class="text-red-700">{{getErrorText('password')}}</p>
+            }
+            <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Repetir contraseña</label>
+            <input type="password" class="form-control input w-full" formControlName="validatePassword"  placeholder="Vuelva a introducir la contraseña " >
+            @if( isInvalid('validatePassword')){
+              <p class="text-red-700">{{getErrorText('validatePassword')}}</p>
+            }
+          }
+
+          @if(user()?.role_id === 3 || user()==null){
+              <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Centro</label>
+              <select class="form-control input w-full" formControlName="degree">
+              @for (degree of degrees(); track degree.degree_id) {
+                <option [value]="degree.degree_id">{{ degree.name }}</option>
+              }
+              </select>
+            }
+            @if( isInvalid('degree')){
+              <p class="text-red-700">{{getErrorText('degree')}}</p>
+            }
+
+
+          @if(user()){
+            <button class="btn btn-neutral mt-4 w-full" > Modificar </button>
+          }
+          @else{
+            <button class="btn btn-neutral mt-4 w-full" > Crear </button>
+          }
+        </form>
+        @if( errorMessage()){
+          <p class="text-red-700">
+            {{errorMessage()}}
+          </p>
+        }
+        @else{
+          <p class="font-bold">
+            {{message()}}
+          </p>
+        }
+      </div>
+    </div>
+</section>

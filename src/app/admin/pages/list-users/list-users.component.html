@@ -1,0 +1,66 @@
+<div class="flex flex-col items-center ">
+<div class="overflow-x-auto w-[80vw] mb-5 bg-base-100 rounded-lg">
+  <table class="table mt-5 overflow-hidden border">
+    <thead class="rounded-lg">
+      <tr class="bg-red-700 text-white rounded-lg">
+        <th></th>
+        <th>Email</th>
+        <th>Nombre</th>
+        <th>Usuario</th>
+        <th>Role</th>
+        <th>Responsable de</th>
+        <th>
+          <a routerLink="/users/new">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6v12m6-6H6" />
+            </svg>
+          </a>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @if((users().length) === 0){
+        <td colspan="5" class="text-center" >
+          No hay usuarios registrados en el sistema
+        </td>
+      }
+      @for(user of users(); track user){
+        <tr>
+          <th>{{user.user_id}}</th>
+          <td>{{user.email}}</td>
+          <td>{{user.name}}</td>
+          <td>{{user.username}}</td>
+          <td>{{user.role_id}}</td>
+          <td>{{user.degree}}</td>
+          <td class="flex flex-row">
+            <a  [routerLink]="['/users/edit', user.user_id]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z" />
+              </svg>
+            </a>
+            <a (click)="deleteUser(user.user_id)">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
+              </svg>
+            </a>
+            <a [routerLink]="['/users/', user.user_id]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+                  <path d="M21.544 11.045c.304.426.456.64.456.955c0 .316-.152.529-.456.955C20.178 14.871 16.689 19 12 19c-4.69 0-8.178-4.13-9.544-6.045C2.152 12.529 2 12.315 2 12c0-.316.152-.529.456-.955C3.822 9.129 7.311 5 12 5c4.69 0 8.178 4.13 9.544 6.045" />
+                  <path d="M15 12a3 3 0 1 0-6 0a3 3 0 0 0 6 0" />
+                </g>
+            </svg>
+            </a>
+          </td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+
+</div>
+<section class=" flex flex-col items-center justify-center w-[80vw] card p-4 bg-gray-200 border">
+    <h1 class="font-bold">Nota importante</h1>
+    <p> El administrador y el Servicio de Calidad no pueden tener ningún Título, Centro , Master o Doctorado asociado</p>
+</section>
+</div>

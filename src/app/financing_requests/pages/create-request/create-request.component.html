@@ -1,0 +1,57 @@
+<section class ="form">
+<section class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
+  <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+    <div class="card-body">
+      <h1 class="text-center font-bold">
+        CREAR NUEVA SOLICITUD
+      </h1>
+      <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()" >
+          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px] text-white">Detalles de la financiación</label>
+          <input type="text" class="form-control input w-full" formControlName="detailsFinancing"  placeholder="Introduzca los detalles de la financiación"/>
+          @if( isInvalid('detailsFinancing')){
+            <p class="text-red-700">{{getErrorText('detailsFinancing')}}</p>
+          }
+          <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
+            Fecha estimada
+          </label>
+          <input type="date" class="form-control input w-full" formControlName="estimatedDate"/>
+          @if(isInvalid('estimatedDate')){
+            <p class="text-red-700">{{getErrorText('estimatedDate')}}</p>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
+            Cantidad solicitada
+          </label>
+          <input type="number" class="form-control input w-full" formControlName="solicitedAmount"/>
+          @if(isInvalid('solicitedAmount')){
+            <p class="text-red-700">{{getErrorText('solicitedAmount')}}</p>
+          }
+
+          <label class="label bg-red-700 rounded text-white p-2 border font-bold text-[15px]">Acción que se desea financiar</label>
+          <select class="form-control input w-full" formControlName="action">
+            @for(action of plan()?.actions; track $index){
+              <option [value]="action.id">{{action.name}}</option>
+            }
+          </select>
+          @if(isInvalid('action')){
+            <p class="text-red-700">{{getErrorText('action')}}</p>
+          }
+
+          <button class="btn btn-neutral mt-4 w-full" > Crear </button>
+
+        </form>
+        @if( errorMessage()){
+          <p class="text-red-700">
+            {{errorMessage()}}
+          </p>
+        }
+        @else{
+          <p class="font-bold">
+            {{message()}}
+          </p>
+        }
+      </div>
+    </div>
+</section>
+
+</section>

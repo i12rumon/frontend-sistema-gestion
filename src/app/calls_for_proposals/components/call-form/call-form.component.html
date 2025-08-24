@@ -1,0 +1,54 @@
+<section class="form">
+  <section class="h-[100vh] flex flex-col items-center justify-center bg-gray-100 p-10">
+    <div class="card bg-base-100 w-full  max-w-sm shrink-0 shadow-2xl">
+      <div class="card-body">
+        <h1 class="text-center font-bold">
+          @if(call()){ MODIFICAR CONVOCATORIA } @else{ CREAR NUEVA CONVOCATORIA }
+        </h1>
+        <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()">
+
+          <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
+            Título
+          </label>
+          <input type="text" class="form-control input w-full" formControlName="title" placeholder="Título de la convocatoria"/>
+          @if(isInvalid('title')){
+            <p class="text-red-700">{{getErrorText('title')}}</p>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
+            Descripción
+          </label>
+          <textarea class="form-control textarea w-full" formControlName="description" placeholder="Descripción"></textarea>
+          @if(isInvalid('description')){
+            <p class="text-red-700">{{getErrorText('description')}}</p>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
+            Fecha de inicio
+          </label>
+          <input type="date" class="form-control input w-full" formControlName="start_date"/>
+          @if(isInvalid('start_date')){
+            <p class="text-red-700">{{getErrorText('start_date')}}</p>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
+            Fecha de fin
+          </label>
+          <input type="date" class="form-control input w-full" formControlName="end_date"/>
+          @if(isInvalid('end_date')){
+            <p class="text-red-700">{{getErrorText('end_date')}}</p>
+          }
+
+          <button class="btn btn-neutral mt-4 w-full">@if(call()){Modificar} @else{Crear}</button>
+        </form>
+
+        @if(errorMessage()){
+          <p class="text-red-700">{{errorMessage()}}</p>
+        }
+        @else{
+          <p class="font-bold">{{message()}}</p>
+        }
+      </div>
+    </div>
+  </section>
+</section>

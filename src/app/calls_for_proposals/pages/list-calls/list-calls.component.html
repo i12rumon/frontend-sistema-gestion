@@ -1,0 +1,63 @@
+<div class="flex flex-col items-center">
+<div class="overflow-x-auto w-[90vw] mb-5 bg-base-100 rounded-lg ">
+  <table class="table mt-5  text-center">
+    <thead class="rounded-lg">
+      <tr class="bg-red-700 text-white rounded-lg">
+        <th >ID</th>
+        <th>Título</th>
+        <th>Descripción</th>
+        <th>Fecha de creación</th>
+        <th>Fecha de finalización</th>
+        <th>Estado</th>
+        @if(user()?.role_id===2){
+          <th>
+            <a routerLink="/calls-for-proposals/create">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6v12m6-6H6" />
+              </svg>
+            </a>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @if((calls().length) === 0){
+        <td colspan="7" class="text-center" >
+          No hay convocatorias registradas
+        </td>
+      }
+      @else {
+        @for(call of calls(); track call){
+        <tr >
+          <td>{{call.id}}</td>
+          <td>{{call.title}}</td>
+          <td>{{call.description}}</td>
+          <td>{{call.start_date}}</td>
+          <td>{{call.end_date}}</td>
+          <td>{{call.status}}</td>
+          @if(user()?.role_id===2){
+            <td class="flex flex-row">
+
+            @if ( call.status === "Abierta"){
+              <a class="cursor-pointer" [routerLink]="['/calls-for-proposals/edit',call.id]">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="currentColor" d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z" />
+                </svg>
+              </a>
+              <a  class="cursor-pointer" (click)="closeCall(call.id)">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="#000" d="M9 3V1H7v2H3a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1h-4V1h-2v2zM4 8h16v11H4zm5.879 1.964l2.12 2.122l2.122-2.122l1.414 1.415l-2.12 2.121l2.12 2.121l-1.414 1.414L12 14.915l-2.122 2.12l-1.414-1.414l2.122-2.121l-2.122-2.121z" />
+                </svg>
+              </a>
+            }
+          </td>
+          }
+        </tr>
+      }
+      }
+    </tbody>
+  </table>
+
+</div>
+</div>
+
