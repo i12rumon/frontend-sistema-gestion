@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RequestService } from '../../service/request.service';
-import { FinancingRequestUserResponse } from '../../interfaces/financing-request.interface';
+import { FinancingRequestUser, FinancingRequestUserResponse } from '../../interfaces/financing-request.interface';
 import { CurrencyPipe, NgClass } from '@angular/common';
 import { UserService } from '../../../user/services/user.service';
 import { ImprovementPlansService } from '../../../improvement-plan/services/improvement-plans.service';
 import { Router } from '@angular/router';
+import { UserItem } from '../../../shared/interfaces/user-item.interface';
 
 
 @Component({
@@ -16,15 +17,33 @@ import { Router } from '@angular/router';
 export class ListRequestFinancingComponent {
 
   requestService = inject(RequestService);
-  requests = signal<FinancingRequestUserResponse|null>(null);
+  message = signal<string>('');
+  requestsArray = signal<FinancingRequestUser[]|null>(null)
   userService = inject(UserService);
   planService = inject(ImprovementPlansService);
   router = inject(Router);
+  user = signal <UserItem|null>(null);
 
   ngOnInit(){
+
+    this.userService.getProfileUser().subscribe({
+      next : (user) =>{
+        this.user.set(user);
+      }
+    })
+
     this.requestService.viewRequests().subscribe({
       next : (requests) =>{
-        this.requests.set(requests);
+        if(this.user()?.role_id===2){
+          this.requestsArray.set(requests.requests);
+          if(requests.Message!==undefined){
+            this.message.set(requests.Message)
+          }
+        }
+        if(this.user()?.role_id===3){
+          this.requestsArray.set(requests.requests.filter((request) => request.user_id === this.user()?.user_id));
+        }
+
       }
     })
   }
@@ -47,6 +66,19 @@ export class ListRequestFinancingComponent {
         console.error('Error al descargar el PDF:', err);
       }
     })
-
   }
+
+  changeStatusRequest(id: number, status: string){
+    this.requestService.changeStatusRequest(id, status).subscribe({
+    next: (res) => {
+      if(res.message){
+        alert(res.message);
+      }
+    },
+    error: (err) => {
+      alert(err.error?.Error || 'Ocurrió un error inesperado');
+    }
+  });
+  }
+
 }

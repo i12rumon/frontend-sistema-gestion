@@ -8,10 +8,11 @@ import { UserService } from '../../../user/services/user.service';
 import { UserItem } from '../../../shared/interfaces/user-item.interface';
 import { ImprovementPlansService } from '../../../improvement-plan/services/improvement-plans.service';
 import { Plan } from '../../../improvement-plan/interfaces/list-plans.interface';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 
 @Component({
   selector: 'app-create-request',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CancelButtonComponent],
   templateUrl: './create-request.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

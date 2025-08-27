@@ -38,9 +38,11 @@
           @if(isInvalid('end_date')){
             <p class="text-red-700">{{getErrorText('end_date')}}</p>
           }
-
-          <button class="btn btn-neutral mt-4 w-full">@if(call()){Modificar} @else{Crear}</button>
-        </form>
+          <div class="flex flex-row w-full gap-5 justify-center">
+            <button class="btn btn-neutral mt-4 px-7">@if(call()){Modificar} @else{Crear}</button>
+            <app-cancel-button route="/calls-for-proposals"/>
+          </div>
+          </form>
 
         @if(errorMessage()){
           <p class="text-red-700">{{errorMessage()}}</p>

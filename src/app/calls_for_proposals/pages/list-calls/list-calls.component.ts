@@ -20,7 +20,7 @@ export class ListCallsComponent {
 
   ngOnInit(){
     //Cargar el usuario para ver qué iconos tiene visibles
-    if(localStorage.getItem('token')){
+    if(localStorage.getItem('access_token')){
       this.userService.getProfileUser().subscribe({
         next: (user) =>{
           this.user.set(user);
@@ -43,7 +43,6 @@ export class ListCallsComponent {
         else{
           this.calls.set(response.Calls_for_proposals);
         }
-
       },
       error: (err) =>{
         this.errorMessage.set(err.message);

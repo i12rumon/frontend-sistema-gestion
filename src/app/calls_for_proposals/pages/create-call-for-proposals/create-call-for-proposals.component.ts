@@ -1,9 +1,6 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { CallsService } from '../../services/calls.service';
-import { CallsMessageResponse } from '../../../shared/interfaces/call-messages-response';
-import { FormUtils } from '../../../utils/form-utils';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+
 import { CallFormComponent } from "../../components/call-form/call-form.component";
 
 @Component({

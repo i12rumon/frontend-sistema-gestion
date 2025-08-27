@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { RequestService } from '../../service/request.service';
 import { ActivatedRoute } from '@angular/router';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 
 @Component({
   selector: 'app-add-receipt-payment',
-  imports: [],
+  imports: [CancelButtonComponent],
   templateUrl: './add_receipt_payment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

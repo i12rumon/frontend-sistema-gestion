@@ -4,10 +4,11 @@ import { Router } from '@angular/router';
 import { AcademicYearService } from '../../service/academic-year.service';
 import { FormUtils } from '../../../utils/form-utils';
 import { responseCreate } from '../../../shared/interfaces/response-create-user';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 
 @Component({
   selector: 'app-create-academic-year',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CancelButtonComponent],
   templateUrl: './create-academic-year.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

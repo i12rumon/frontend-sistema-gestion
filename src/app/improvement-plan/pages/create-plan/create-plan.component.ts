@@ -13,13 +13,13 @@ import {
 } from '@angular/forms';
 import { ImprovementPlansService } from '../../services/improvement-plans.service';
 import { Router } from '@angular/router';
-import jsPDF from 'jspdf';
-import autoTable from 'jspdf-autotable';
+
 import { AcademicYearService } from '../../../academic_year/service/academic-year.service';
 import { UserService } from '../../../user/services/user.service';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 @Component({
   selector: 'app-create-plan',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CancelButtonComponent],
   templateUrl: './create-plan.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: true

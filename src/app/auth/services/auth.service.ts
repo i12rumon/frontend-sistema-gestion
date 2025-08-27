@@ -8,7 +8,7 @@ import { LoginResponse } from '../../shared/interfaces/response-login.interface'
 
 interface JwtToken {
   exp: number;
-  role_id: string;
+  role_id: number;
   user_id: string;
 }
 
@@ -43,9 +43,9 @@ export class AuthService {
     try {
       const decoded = jwtDecode<JwtToken>(token);
       switch (decoded.role_id) {
-        case '1': return 'ADMIN';
-        case '2': return 'QUALITY';
-        case '3': return 'RESPONSABLE';
+        case 1: return 'ADMIN';
+        case 2: return 'QUALITY';
+        case 3: return 'RESPONSABLE';
         default: return null;
       }
     } catch {

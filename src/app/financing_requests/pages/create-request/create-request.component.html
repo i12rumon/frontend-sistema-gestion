@@ -36,8 +36,11 @@
           @if(isInvalid('action')){
             <p class="text-red-700">{{getErrorText('action')}}</p>
           }
+          <div class="flex flex-row w-full gap-5 justify-center">
+            <button class="btn btn-neutral mt-4" > Crear </button>
+            <app-cancel-button route="/financing"/>
+          </div>
 
-          <button class="btn btn-neutral mt-4 w-full" > Crear </button>
 
         </form>
         @if( errorMessage()){

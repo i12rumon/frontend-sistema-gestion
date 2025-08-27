@@ -1,6 +1,7 @@
 export interface LoginResponse {
   Message: string;
   role: number;
-  token: string;
+  access_token: string;
+  refresh_token: string;
   user_id : number
 }

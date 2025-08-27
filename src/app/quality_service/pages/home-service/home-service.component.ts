@@ -26,11 +26,13 @@ export class HomeServiceComponent implements OnInit {
         this.infoUser.set(data);
       },
     });
-    this.planService.plans().subscribe({
+
+    this.planService.nPlans().subscribe({
       next: (data) =>{
-        this.nPlans.set(data.plans.length)
+        this.nPlans.set(data.plans.length);
       }
     })
+
     this.callService.calls().subscribe({
       next: (data) =>{
         const activeYear = data.Calls_for_proposals.find((call) => call.status==='Abierta');

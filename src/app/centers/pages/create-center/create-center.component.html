@@ -1,18 +1,18 @@
 <section class ="form">
-<section class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
+<section class="min-h-[calc(100vh-201px)]  flex flex-col items-center justify-center bg-gray-100 p-10">
   <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
     <div class="card-body">
       <h1 class="text-center font-bold">
         @if(degree()){ MODIFICAR CENTRO O TÍTULO } @else{ CREAR NUEVO CENTRO O TÍTULO }
       </h1>
       <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()">
-          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Nombre</label>
+          <label class="label bg-red-700 rounded text-white p-2 border font-bold text-[15px]">Nombre</label>
           <input type="name" class="form-control input w-full" formControlName="name"  placeholder="Introduzca el nombre"/>
           @if( isInvalid('name')){
             <p class="text-red-700">{{getErrorText('name')}}</p>
           }
 
-          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px]">Tipo</label>
+          <label class="label bg-red-700 rounded p-2 text-white border font-bold text-[15px]">Tipo</label>
           <select class="form-control input w-full" formControlName="type">
             <option>Centro</option>
             <option>Grado</option>
@@ -22,12 +22,16 @@
           @if( isInvalid('type')){
             <p class="text-red-700">{{getErrorText('type')}}</p>
           }
-          @if(degree()){
-            <button class="btn btn-neutral mt-4 w-full" > Modificar </button>
-          }
-          @else{
-            <button class="btn btn-neutral mt-4 w-full" > Crear </button>
-          }
+          <div class="flex flex-row gap-5 justify-center">
+            @if(degree()){
+              <button class="btn btn-neutral mt-4 px-6" > Modificar </button>
+            }
+            @else{
+              <button class="btn btn-neutral mt-4 px-6" > Crear </button>
+            }
+            <app-cancel-button route="/centers"/>
+          </div>
+
         </form>
         @if( errorMessage()){
           <p class="text-red-700">

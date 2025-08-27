@@ -11,7 +11,10 @@
         @if( isInvalid('year')){
           <p class="text-red-700">{{getErrorText('year')}}</p>
         }
-        <button class="btn btn-neutral mt-4 w-full" > Crear </button>
+        <div class="flex flex-row w-full gap-5 justify-center">
+          <button class="btn btn-neutral mt-4 px-6" > Crear </button>
+          <app-cancel-button route="/academic-years"/>
+        </div>
         </form>
         @if( errorMessage()){
           <p class="text-red-700">

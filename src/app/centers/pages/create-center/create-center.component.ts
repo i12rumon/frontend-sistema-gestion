@@ -6,10 +6,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { responseCreate } from '../../../shared/interfaces/response-create-user';
 import { FormUtils } from '../../../utils/form-utils';
 import { responseModCreDegree } from '../../../shared/interfaces/responseModCre.interface';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 
 @Component({
   selector: 'app-create-center',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CancelButtonComponent],
   templateUrl: './create-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

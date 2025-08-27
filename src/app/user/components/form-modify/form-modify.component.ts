@@ -9,10 +9,11 @@ import { FormUtils } from '../../../utils/form-utils';
 import { Degrees } from '../../../shared/interfaces/degrees.interface';
 import { responseCreate } from '../../../shared/interfaces/response-create-user';
 import { CommonModule } from '@angular/common';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 
 @Component({
   selector: 'app-form-modify',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CancelButtonComponent],
   templateUrl: './form-modify.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

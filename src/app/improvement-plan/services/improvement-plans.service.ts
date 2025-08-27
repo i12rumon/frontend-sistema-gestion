@@ -15,6 +15,10 @@ export class ImprovementPlansService {
     return this.http.get<Plans>(`${environment.baseUrl}/plans-user`);
   }
 
+  nPlans(): Observable<Plans>{
+    return this.http.get<Plans>(`${environment.baseUrl}/plans`);
+  }
+
   create_plan(plan: ImprovementPlan){
     return this.http.post<ImprovementPlan>(`${environment.baseUrl}/plans/new`, plan);
   }

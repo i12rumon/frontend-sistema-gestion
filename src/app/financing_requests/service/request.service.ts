@@ -24,7 +24,7 @@ export class RequestService {
   }
 
   viewRequests() : Observable<FinancingRequestUserResponse>{
-    return this.http.get<FinancingRequestUserResponse>(`${environment.baseUrl}/financing-requests/responsable`)
+    return this.http.get<FinancingRequestUserResponse>(`${environment.baseUrl}/financing-requests`)
   }
 
   uploadPaymentReceipt(financingId: number, file: File) {
@@ -38,6 +38,12 @@ export class RequestService {
     {
       responseType: 'blob' as 'json'
     });
+  }
+
+  changeStatusRequest(id: number, status: string) : Observable<CallsMessageResponse>{
+    let url = `${environment.baseUrl}`
+    url+= `/financing-requests/${id}/${status}`;
+    return this.http.put<CallsMessageResponse>(url,{});
   }
 
 }

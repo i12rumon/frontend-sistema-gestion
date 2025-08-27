@@ -1,8 +1,9 @@
-import { ChangeDetectionStrategy, Component, createPlatform, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, createPlatform, inject, OnInit, runInInjectionContext, signal } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { FormUtils } from '../../../utils/form-utils';
 import { UserService } from '../../../user/services/user.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,8 @@ export class LoginComponent {
   errorMessage=signal('');
   fb= inject(FormBuilder);
   router= inject(Router);
+  authService = inject(AuthService);
+  role = signal<string>('');
   private userService= inject(UserService);
   myForm : FormGroup = this.fb.group({
     username: ['', Validators.required],
@@ -29,20 +32,19 @@ onLogin() {
 
   this.userService.login(this.myForm.value.username, this.myForm.value.password).subscribe({
     next: (response) => {
-      localStorage.setItem('access_token', response.access_token || response.token);
+      localStorage.setItem('access_token', response.access_token);
       if (response.refresh_token) {
         localStorage.setItem('refresh_token', response.refresh_token);
       }
-
-      // Redirigir según rol
-      switch (response.role) {
-        case 1:
+      const role = this.authService.getRole();
+      switch (role) {
+        case "ADMIN":
           this.router.navigate(['/admin']);
           break;
-        case 2:
+        case "QUALITY":
           this.router.navigate(['/service']);
           break;
-        case 3:
+        case "RESPONSABLE":
           this.router.navigate(['/responsable']);
           break;
         default:

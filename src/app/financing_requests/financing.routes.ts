@@ -7,16 +7,10 @@ import { AddReceiptPaymentComponent } from './pages/add_receipt_payment/add_rece
 
 export const financingRoutes: Routes = [
   {
-    path: 'responsable',
+    path: '',
     component: ListRequestFinancingComponent,
     canActivate: [roleGuard],
-    data: {roles: ['RESPONSABLE']}
-  },
-  {
-    path: 'quality',
-    component: ListRequestFinancingComponent,
-    canActivate: [roleGuard],
-    data: {roles: ['QUALITY']}
+    data: {roles: ['RESPONSABLE','QUALITY']}
   },
   {
       path: ':id/request',

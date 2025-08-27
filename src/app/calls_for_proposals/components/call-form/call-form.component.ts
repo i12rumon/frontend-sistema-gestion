@@ -7,10 +7,11 @@ import { CallsMessageResponse } from '../../../shared/interfaces/call-messages-r
 import { FormUtils } from '../../../utils/form-utils';
 import { parse } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
 
 @Component({
   selector: 'app-call-form',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CancelButtonComponent],
   templateUrl: './call-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

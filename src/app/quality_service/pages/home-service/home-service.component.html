@@ -1,17 +1,23 @@
 <app-nav-bar-service />
-<div class="m-10 flex flex-col justify-center items-center ">
+<div class="m-10 flex flex-col min-h-[calc(100vh-305px)] justify-content items-center ">
   <section class="  w-[150vh] m-3 p-4 flex flex-col  bg-red-700 rounded">
     <div class="card font-bold text-xl text-white"> Bienvenido {{infoUser()?.name}},</div>
     <div class="card text-white"> Esta es el Área del Sercivio de Calidad en el Sistema de Gestión de Planes de Mejora y Convocatorias de Apoyo </div>
   </section>
   <div class="flex flex-row">
-    <section class="  w-[72vh] m-3 p-5 flex flex-col justify-center items-center bg-yellow-500 rounded">
+    <section class="  w-[73.4vh] m-3 p-5 flex flex-col justify-center items-center bg-yellow-500 rounded">
       <div class="card font-bold text-xl "> Número de planes de mejora en el sistema </div>
       <div class="card">{{nPlans()}} </div>
     </section>
-    <section class="  w-[72vh] m-3 p-5 flex flex-col justify-center items-center bg-yellow-500 rounded">
+    <section class=" w-[73.4vh] m-3 p-5 flex flex-col justify-center items-center bg-yellow-500 rounded">
       <div class="card font-bold text-xl"> Convocatoria activa </div>
-      <div class="card">{{callActive()}}</div>
+      @if(callActive()){
+        <div class="card">{{callActive()}}</div>
+      }
+      @else {
+        <div class="card">No hay una convocatoria activa en este momento</div>
+      }
+
     </section>
   </div>
   <section class="  w-[150vh] m-3 p-4 flex flex-col justify-center items-center bg-gray-500 rounded">
