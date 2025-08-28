@@ -14,6 +14,7 @@ export class PlansTableComponent {
   borradores = input<boolean>();
   errorMessage=signal('');
   router = inject(Router);
+  role = input.required()
   private planService = inject(ImprovementPlansService);
   generatePDF(plan_id: number){
     this.planService.generatePDF(plan_id).subscribe({
@@ -53,4 +54,9 @@ export class PlansTableComponent {
   createRequest(id:number){
     this.router.navigateByUrl(`/financing/${id}/request`);
   }
+
+  modifyPlan(id:number){
+    this.router.navigateByUrl(`/plans/edit/${id}`);
+  }
+
 }

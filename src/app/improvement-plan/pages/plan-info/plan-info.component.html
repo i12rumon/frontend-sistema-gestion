@@ -31,7 +31,9 @@
             @if(action.origin === "Recomendación ACCUA"){
               <p><span class="font-semibold">Recomendaciones ACCUA:</span> {{action.accua_recommendations}}</p>
             }
-            <p class="mt-2"><span class="font-semibold">Criterios Guía IMPLANTA:</span> {{action.criterios}}</p>
+            <p><span class="font-semibold">Criterios Guía IMPLANTA:</span>
+              {{ isArray(action.criterios) ? action.criterios.join(', ') : action.criterios }}
+            </p>
             <p class="mt-2"><span class="font-semibold">Descripción:</span> {{action.description}}</p>
             <p class="mt-2"><span class="font-semibold">Objetivos:</span> {{action.objectives}}</p>
             <p class="mt-2"><span class="font-semibold">Alcance:</span> {{action.scope}}</p>

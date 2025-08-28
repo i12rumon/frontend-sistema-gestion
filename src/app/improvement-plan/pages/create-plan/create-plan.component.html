@@ -1,6 +1,8 @@
 <section class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
   <div class="card bg-base-100 w-full max-w-3xl shadow-2xl p-6">
-    <h1 class="text-center font-bold text-2xl mb-6">Crear Plan de Mejora</h1>
+    <h1 class="text-center font-bold text-2xl mb-6">
+      {{ isEdit ? 'Editar Plan de Mejora' : 'Crear Plan de Mejora' }}
+    </h1>
     <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="space-y-6">
 
       <div>
@@ -77,6 +79,16 @@
           </div>
           }
 
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Ámbito:
+          </label>
+          <input formControlName="scope" class="input input-bordered w-full" />
+          @if (action.get('scope')?.touched && action.get('scope')?.invalid){
+          <div class="text-red-600 text-sm">
+            La ámbito es obligatorio
+          </div>
+          }
+
           <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Objetivos:</label>
           <input formControlName="objectives" class="input input-bordered w-full" />
           @if (action.get('objectives')?.touched && action.get('objectives')?.invalid){
@@ -85,6 +97,39 @@
           </div>
           }
 
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Prioridad:
+          </label>
+          <select formControlName="priority" class="input input-bordered w-full">
+            <option value="">Selecciona prioridad</option>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+          @if (action.get('priority')?.touched && action.get('priority')?.invalid){
+          <div class="text-red-600 text-sm">
+            La prioridad es obligatoria
+          </div>
+          }
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Fecha de inicio:
+          </label>
+          <input type="date" formControlName="start_date" class="input input-bordered w-full" />
+          @if (action.get('start_date')?.touched && action.get('start_date')?.invalid){
+            <div class="text-red-600 text-sm">
+              La fecha de inicio es obligatoria
+            </div>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Fecha de fin:
+          </label>
+          <input type="date" formControlName="end_date" class="input input-bordered w-full" />
+          @if (action.get('end_date')?.touched && action.get('end_date')?.invalid){
+            <div class="text-red-600 text-sm">
+              La fecha de fin es obligatoria
+            </div>
+          }
           <div formArrayName="indicators" class="mt-4 space-y-4">
             <h3 class="font-semibold">Indicadores</h3>
             @for (indicator of getIndicators(i).controls; track indicator; let j = $index) {
@@ -130,14 +175,16 @@
       <button type="button" class="btn btn-primary" (click)="addAction()">Añadir acción</button>
 
       <div class=" flex flex-row justify-center align-center gap-6">
-        <button type="submit" class="btn btn-success text-white mt-4 ">Crear plan de Mejora</button>
+        <button type="submit" class="btn btn-success text-white mt-4">
+          {{ isEdit ? 'Modificar' : 'Crear' }}
+        </button>
         <app-cancel-button route="/plans"/>
       </div>
 
 
     </form>
     @if(errorMessage()){
-      <p class="text-red-600">{{errorMessage()}}</p>
+      <p class="text-red-600 mt-5">{{errorMessage()}}</p>
     }
   </div>
 </section>

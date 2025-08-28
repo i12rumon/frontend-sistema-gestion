@@ -8,11 +8,13 @@
         <th>Año académico</th>
         <th>Descripción</th>
         <th>
-          <a routerLink="/plans/new">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6v12m6-6H6" />
-            </svg>
-          </a>
+          @if(role()===3){
+              <a routerLink="/plans/new"  title="Crear Plan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M12 6v12m6-6H6" />
+                </svg>
+              </a>
+          }
         </th>
       </tr>
     </thead>
@@ -32,41 +34,45 @@
           <td>{{plan.academic_year}}</td>
           <td>{{plan.description}}</td>
           <td class="flex flex-row">
-            <a class="cursor-pointer" >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path fill="currentColor" d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z" />
-              </svg>
-            </a>
-            <a class="cursor-pointer" (click)="generatePDF(plan.id)">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path fill="#000" d="M16 8V5H8v3H6V3h12v5zM4 10h16zm14 2.5q.425 0 .713-.288T19 11.5t-.288-.712T18 10.5t-.712.288T17 11.5t.288.713t.712.287M16 19v-4H8v4zm2 2H6v-4H2v-6q0-1.275.875-2.137T5 8h14q1.275 0 2.138.863T22 11v6h-4zm2-6v-4q0-.425-.288-.712T19 10H5q-.425 0-.712.288T4 11v4h2v-2h12v2z" />
-              </svg>
-            </a>
-            @if(plan.status=="Borrador"){
-              <a (click)="approvePlan(plan)">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                  <path fill="#000" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
-                </svg>
-              </a>
+            @if(role()===3){
+
+                <a class="cursor-pointer" (click)="modifyPlan(plan.id)" title="Modificar Plan">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" >
+                    <path fill="currentColor" d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75z" />
+                  </svg>
+                </a>
+                <a class="cursor-pointer" (click)="generatePDF(plan.id)"  title="Generar PDF">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <path fill="#000" d="M16 8V5H8v3H6V3h12v5zM4 10h16zm14 2.5q.425 0 .713-.288T19 11.5t-.288-.712T18 10.5t-.712.288T17 11.5t.288.713t.712.287M16 19v-4H8v4zm2 2H6v-4H2v-6q0-1.275.875-2.137T5 8h14q1.275 0 2.138.863T22 11v6h-4zm2-6v-4q0-.425-.288-.712T19 10H5q-.425 0-.712.288T4 11v4h2v-2h12v2z" />
+                  </svg>
+                </a>
+                @if(plan.status=="Borrador"){
+                  <a (click)="approvePlan(plan)"  title="Aprobar Plan">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="#000" d="M19 12.998h-6v6h-2v-6H5v-2h6v-6h2v6h6z" />
+                    </svg>
+                  </a>
+                }
+                <a (click)="createRequest(plan.id)" class="cursor-pointer"  title="Crear Solicitud de financiación">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                    <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
+                      <path stroke-width="1.5" d="M14.5 12.001a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" />
+                      <path stroke-width="2" d="M18.5 11.49v.01m-13 .99v.01" />
+                      <path stroke-width="1.5" d="M16 5.001c2.48 0 4.19.384 5.133.676c.543.168.867.683.867 1.251v9.755c0 1.115-1.228 1.954-2.324 1.747c-.94-.177-2.165-.32-3.676-.32c-4.75 0-5.89 1.806-12.855.27A1.47 1.47 0 0 1 2 16.94V6.921c0-.976.92-1.687 1.878-1.497C10.197 6.678 11.421 5 16 5" />
+                    </g>
+                  </svg>
+                </a>
+
             }
-            <a (click)="viewPlan(plan.id)" >
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <g fill="none" stroke="#000" stroke-width="1.5">
-                  <path d="M21.544 11.045c.304.426.456.64.456.955c0 .316-.152.529-.456.955C20.178 14.871 16.689 19 12 19c-4.69 0-8.178-4.13-9.544-6.045C2.152 12.529 2 12.315 2 12c0-.316.152-.529.456-.955C3.822 9.129 7.311 5 12 5c4.69 0 8.178 4.13 9.544 6.045Z" />
-                  <path d="M15 12a3 3 0 1 0-6 0a3 3 0 0 0 6 0Z" />
-                </g>
-              </svg>
+            <a (click)="viewPlan(plan.id)"  title="Visualizar Plan">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                  <g fill="none" stroke="#000" stroke-width="1.5">
+                    <path d="M21.544 11.045c.304.426.456.64.456.955c0 .316-.152.529-.456.955C20.178 14.871 16.689 19 12 19c-4.69 0-8.178-4.13-9.544-6.045C2.152 12.529 2 12.315 2 12c0-.316.152-.529.456-.955C3.822 9.129 7.311 5 12 5c4.69 0 8.178 4.13 9.544 6.045Z" />
+                    <path d="M15 12a3 3 0 1 0-6 0a3 3 0 0 0 6 0Z" />
+                  </g>
+                </svg>
             </a>
-            <a (click)="createRequest(plan.id)" class="cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1">
-                  <path stroke-width="1.5" d="M14.5 12.001a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0" />
-                  <path stroke-width="2" d="M18.5 11.49v.01m-13 .99v.01" />
-                  <path stroke-width="1.5" d="M16 5.001c2.48 0 4.19.384 5.133.676c.543.168.867.683.867 1.251v9.755c0 1.115-1.228 1.954-2.324 1.747c-.94-.177-2.165-.32-3.676-.32c-4.75 0-5.89 1.806-12.855.27A1.47 1.47 0 0 1 2 16.94V6.921c0-.976.92-1.687 1.878-1.497C10.197 6.678 11.421 5 16 5" />
-                </g>
-              </svg>
-            </a>
-          </td>
+        </td>
         </tr>
       }
     }

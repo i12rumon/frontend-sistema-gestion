@@ -12,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ImprovementPlansService } from '../../services/improvement-plans.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AcademicYearService } from '../../../academic_year/service/academic-year.service';
 import { UserService } from '../../../user/services/user.service';
@@ -33,6 +33,7 @@ export class CreatePlanComponent {
     '5. Gestión y Resultados de los procesos de enseñanza-aprendizaje'
   ];
   router = inject(Router);
+  activatedRoute = inject(ActivatedRoute);
   errorMessage= signal<string>('');
   planService = inject(ImprovementPlansService);
   userService = inject (UserService);
@@ -45,12 +46,20 @@ export class CreatePlanComponent {
     description: ['', [Validators.required]],
     actions: this.fb.array([]),
   });
+  plan_id = signal<number|null>(null);
+  isEdit = false;
 
   ngOnInit(){
     this.userService.getProfileUser().subscribe({
       next: (data) => {
         this.id_user.set(data.user_id);
     }})
+
+    this.plan_id.set(Number(this.activatedRoute.snapshot.paramMap.get('id')));
+    if(this.plan_id()){
+      this.isEdit = true;
+      this.loadPlan(this.plan_id()!);
+    }
   }
 
   get actions() {
@@ -77,7 +86,11 @@ export class CreatePlanComponent {
         accua_recommendations: [''],
         criterios: [[], [Validators.required]],
         description_action: ['', [Validators.required]],
+        scope: [''],
         objectives: ['', [Validators.required]],
+        priority: [''],
+        start_date: [null],
+        end_date: [null],
         indicators: this.fb.array([]),
       })
     );
@@ -115,7 +128,7 @@ export class CreatePlanComponent {
           origin: action.origin,
           accua_recommendations: action.accua_recommendations,
           criterios: action.criterios,
-          description: action.description,
+          description: action.description_action,
           scope: action.scope,
           objectives: action.objectives,
           priority: action.priority,
@@ -126,16 +139,29 @@ export class CreatePlanComponent {
             start_value: ind.start_value,
             objective_value: ind.objective_value,
           })),
-        })),
+        }))
       };
-      this.planService.create_plan(plan).subscribe({
-        next: () => {
-          this.router.navigateByUrl(`/plans`);
-        },
-        error: (error)=>{
-          this.errorMessage.set(error?.error?.Error);
-        }
-      });
+      if(this.isEdit && this.plan_id()){
+        this.planService.update_plan(this.plan_id()!,plan).subscribe({
+          next: () => {
+            this.router.navigateByUrl(`/plans`);
+          },
+          error: (error)=>{
+            console.log(error);
+            this.errorMessage.set(error?.error?.Error);
+          }
+        });
+      }
+      else{
+        this.planService.create_plan(plan).subscribe({
+          next: () => {
+            this.router.navigateByUrl(`/plans`);
+          },
+          error: (error)=>{
+            this.errorMessage.set(error?.error?.Error);
+          }
+        });
+      }
     } else {
       this.myForm.markAllAsTouched();
     }
@@ -154,7 +180,44 @@ export class CreatePlanComponent {
     control?.markAsTouched();
   }
 
-  generatePDF(){
+  loadPlan(planId: number) {
+  this.planService.get_plan(planId).subscribe((plan) => {
+    this.myForm.patchValue({
+      name: plan.name,
+      description: plan.description,
+    });
 
-  }
+    plan.actions.forEach((action) => {
+      const actionGroup = this.fb.group({
+        id: [action.id],
+        name_action: [action.name, Validators.required],
+        origin: [action.origin, Validators.required],
+        accua_recommendations: [action.accua_recommendations || ''],
+        criterios: [action.criterios || [], Validators.required],
+        description_action: [action.description, Validators.required],
+        scope: [action.scope || ''],
+        start_date: [action.start_date || null],
+        end_date: [action.end_date || null],
+        objectives: [action.objectives, Validators.required],
+        priority: [action.priority || ''],
+        indicators: this.fb.array([]),
+      });
+
+      const indicatorsArray = actionGroup.get('indicators') as FormArray;
+      action.indicators.forEach((ind: any) => {
+        indicatorsArray.push(
+          this.fb.group({
+            id: [ind.id],
+            name: [ind.name, Validators.required],
+            start_value: [ind.start_value, Validators.required],
+            objective_value: [ind.objective_value, Validators.required],
+          })
+        );
+      });
+
+      this.actions.push(actionGroup);
+    });
+  });
+}
+
 }

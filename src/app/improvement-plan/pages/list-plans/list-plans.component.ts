@@ -25,15 +25,30 @@ export class ListPlansComponent {
     this.userService.getProfileUser().subscribe({
       next: (data) => {
         this.user.set(data);
+        if(this.user()?.role_id===3){
+          this.planService.plans().subscribe({
+            next: (response) => {
+              this.plans.set(response.plans);
+            },
+            error: (err) =>{
+              this.errorMessage.set(err.message)
+            }
+          })
+        }
+
+        if(this.user()?.role_id===2){
+          this.planService.nPlans().subscribe({
+            next: (response) => {
+              console.log(response.plans)
+              this.plans.set(response.plans);
+            },
+            error: (err) =>{
+              this.errorMessage.set(err.message)
+            }
+          })
+        }
       },
     });
-    this.planService.plans().subscribe({
-      next: (response) => {
-        this.plans.set(response.plans);
-      },
-      error: (err) =>{
-        this.errorMessage.set(err.message)
-      }
-    })
+
   }
 }

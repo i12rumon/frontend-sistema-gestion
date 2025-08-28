@@ -1,6 +1,7 @@
-<section class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
-  <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">      <div class="card-body">
-        <h1 class="text-center font-bold">
+<section class=" flex flex-col min-h-[calc(100vh-201px)] items-center justify-center bg-gray-100 p-9.5">
+  <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+    <div class="card-body">
+      <h1 class="text-center font-bold">
         @if(user()){ MODIFICAR USUARIO } @else{ CREAR NUEVO USUARIO }
       </h1>
     <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()">
@@ -32,7 +33,7 @@
             }
           }
 
-          @if(user()?.role_id === 3 || user()==null){
+          @if(user()?.role_id === 3 && !this.router.url.includes('modify-profile')){
               <label class="label bg-red-700 text-white rounded p-2 border font-bold text-[15px]">Centro</label>
               <select class="form-control input w-full" formControlName="degree">
               @for (degree of degrees(); track degree.degree_id) {

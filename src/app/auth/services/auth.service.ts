@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { jwtDecode } from 'jwt-decode';
-import { Observable, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { LoginResponse } from '../../shared/interfaces/response-login.interface';
 
@@ -10,6 +10,7 @@ interface JwtToken {
   exp: number;
   role_id: number;
   user_id: string;
+  type?: string;
 }
 
 @Injectable({
@@ -76,8 +77,33 @@ export class AuthService {
       headers: { Authorization: `Bearer ${refreshToken}` }
     }).pipe(
       tap((res: any) => {
-        this.setTokens(res.access_token);
+        this.setTokens(res.access_token, res.refresh_token);
       })
     );
   }
+  checkAndRefreshToken(): Observable<boolean> {
+    const token = this.getToken();
+    if (!token) return of(false);
+
+    try {
+      const decoded: JwtToken = jwtDecode<JwtToken>(token);
+      const now = Date.now() / 1000;
+
+      if (decoded.exp < now && this.getRefreshToken()) {
+        return this.refreshAccessToken().pipe(
+          switchMap(() => of(true)),
+          catchError(() => {
+            this.logout();
+            return of(false);
+          })
+        );
+      }
+
+      return of(true);
+    } catch {
+      this.logout();
+      return of(false);
+    }
+  }
+
 }

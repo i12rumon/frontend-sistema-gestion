@@ -74,7 +74,7 @@ export const routes: Routes = [
     path: 'plans',
     loadChildren: ()=> import('./improvement-plan/improvement-plans.routes'),
     canActivate: [roleGuard],
-    data: {roles: ['RESPONSABLE']}
+    data: {roles: ['RESPONSABLE', 'QUALITY']}
   },
   {
     path: 'academic-years',

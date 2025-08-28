@@ -43,4 +43,8 @@ export class ImprovementPlansService {
     .pipe(map(resp => resp.plan));
   }
 
+  update_plan(planId: number, plan: ImprovementPlan){
+    return this.http.put(`${environment.baseUrl}/plans/${planId}`, plan);
+  }
+
 }

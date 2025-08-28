@@ -19,12 +19,37 @@ export class PlanInfoComponent implements OnInit {
   userService = inject(UserService);
   user = signal<responseModCreUser|null>(null);
   plan = signal<Plan|null>(null);
-  ngOnInit(){
-    this.planService.get_plan(this.id).subscribe({
-      next: (plan) => {
-        this.plan.set(plan)
-        console.log(this.plan())
-      }
-    })
+  ngOnInit() {
+  this.planService.get_plan(this.id).subscribe({
+    next: (plan) => {
+      plan.actions.forEach(action => {
+        console.log( action.criterios);
+        if (typeof action.criterios === 'string') {
+            action.criterios = this.normalizeCriterios(action.criterios);
+        }
+      });
+
+      this.plan.set(plan);
+    }
+  });
   }
+  isArray(value: any): boolean {
+    return Array.isArray(value);
+  }
+
+  normalizeCriterios(value: any): string[] {
+  if (!value) return [];
+
+  if (Array.isArray(value)) {
+
+    const joined = value.join('').trim();
+    return [joined];
+  }
+
+  if (typeof value === 'string') {
+    return [value.trim()];
+  }
+
+  return [String(value)];
+}
 }

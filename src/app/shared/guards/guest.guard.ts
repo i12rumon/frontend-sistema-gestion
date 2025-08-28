@@ -1,26 +1,24 @@
 import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
+import { of, switchMap } from 'rxjs';
 
 export const guestGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const token = localStorage.getItem('access_token');
   const authService = inject(AuthService);
-  if(token && authService.validateToken()){
-    const role = authService.getRole();
-    if(role === "ADMIN"){
-      router.navigateByUrl('/admin');
-      return false;
-    }
-    if(role === "RESPONSABLE"){
-      router.navigateByUrl("/responsable");
-      return false;
-    }
-    if(role === "QUALITY"){
-      router.navigateByUrl("/service");
-      return false;
-    }
-    return false;
-  }
-  return true;
+  return authService.checkAndRefreshToken().pipe(
+    switchMap(valid => {
+      if (!valid) return of(true);
+
+      const role = authService.getRole();
+      console.log(role)
+      switch (role) {
+        case 'ADMIN': return router.navigateByUrl('/admin').then(() => false);
+        case 'RESPONSABLE': return router.navigateByUrl('/responsable').then(() => false);
+        case 'QUALITY': return router.navigateByUrl('/service').then(() => false);
+        default: return of(false);
+      }
+    })
+  );
 };

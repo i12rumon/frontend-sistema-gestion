@@ -1,19 +1,26 @@
 import { Router, type CanActivateFn } from '@angular/router';
 import { AuthService } from '../../auth/services/auth.service';
 import { inject } from '@angular/core';
+import { of, switchMap } from 'rxjs';
 
 export const roleGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
   const roles = route.data['roles'] as string[];
-  const userRole = authService.getRole();
+  return authService.checkAndRefreshToken().pipe(
+    switchMap(valid => {
+      if (!valid) {
+        router.navigate(['/login']);
+        return of(false);
+      }
 
-  if( authService.loggedIn() && roles.includes(userRole!)){
-    return true;
-  }
+      const userRole = authService.getRole();
+      if (roles.includes(userRole!)) return of(true);
 
-  return router.createUrlTree(['/not-found']);
-
+      router.navigate(['/not-found']);
+      return of(false);
+    })
+  );
 
 };
