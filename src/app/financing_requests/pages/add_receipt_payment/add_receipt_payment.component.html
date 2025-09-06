@@ -1,0 +1,33 @@
+<section class="flex items-center justify-center min-h-[calc(100vh-201px)]  bg-gray-100">
+  <div class="flex flex-col justify-content items-center space-y-4 p-6 bg-white rounded-lg shadow-md w-[40vw]">
+    <h2 class="text-xl font-bold text-gray-700">Subir presupuesto</h2>
+
+    <input
+      type="file"
+      accept="application/pdf"
+      (change)="onFileSelected($event)"
+      class="file-input file-input-bordered file-input-error w-full"
+    />
+    <div class="flex flex-row gap-5 justify-center ">
+      <button
+        (click)="uploadFile( id)"
+        class="btn btn-error text-white mt-4  "
+      >
+        Subir PDF
+      </button>
+      <app-cancel-button route="/financing"/>
+    </div>
+
+    @if(message()){
+      <div  class="text-center text-gray-600 mt-2">
+        {{ message() }}
+      </div>
+    }
+    @if(errorMessage()){
+      <div  class="text-center text-red-600 mt-2">
+        {{ errorMessage() }}
+      </div>
+    }
+
+  </div>
+</section>

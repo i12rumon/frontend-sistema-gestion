@@ -1,0 +1,34 @@
+<section class ="form">
+<section class="h-[78vh] flex flex-col items-center justify-center bg-gray-100 p-10">
+  <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+    <div class="card-body">
+      <h1 class="text-center font-bold">
+        PONER COMO ACTIVO NUEVO AÑO ACADÉMICO
+      </h1>
+      <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()">
+        <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">Año Académico</label>
+        <input type="text" class="form-control input w-full" formControlName="year"  placeholder="Introduzca el Año Académico"/>
+        @if( isInvalid('year')){
+          <p class="text-red-700">{{getErrorText('year')}}</p>
+        }
+        <div class="flex flex-row w-full gap-5 justify-center">
+          <button class="btn btn-neutral mt-4 px-6" > Crear </button>
+          <app-cancel-button route="/academic-years"/>
+        </div>
+        </form>
+        @if( errorMessage()){
+          <p class="text-red-700">
+            {{errorMessage()}}
+          </p>
+        }
+        @else{
+          <p class="font-bold">
+            {{message()}}
+          </p>
+        }
+      </div>
+    </div>
+</section>
+
+</section>
+

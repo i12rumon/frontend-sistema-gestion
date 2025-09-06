@@ -1,0 +1,190 @@
+<section class="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-10">
+  <div class="card bg-base-100 w-full max-w-3xl shadow-2xl p-6">
+    <h1 class="text-center font-bold text-2xl mb-6">
+      {{ isEdit ? 'Editar Plan de Mejora' : 'Crear Plan de Mejora' }}
+    </h1>
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <div>
+        <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Nombre:</label>
+        <input formControlName="name" class="input input-bordered w-full" />
+        @if (myForm.get('name')?.touched && myForm.get('name')?.invalid){
+        <div class="text-red-600 text-sm">
+          El nombre del Plan de Mejora es obligatorio
+        </div>
+        }
+      </div>
+      <div>
+        <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Descripción:</label>
+        <textarea formControlName="description" class="textarea textarea-bordered w-full"></textarea>
+        @if (myForm.get('description')?.touched && myForm.get('description')?.invalid){
+        <div class="text-red-600 text-sm">
+          La descripción es obligatoria
+        </div>
+        }
+      </div>
+
+      <div formArrayName="actions" class="space-y-8">
+        @for (action of actions.controls; track action; let i = $index) {
+        <div [formGroupName]="i" class="border rounded-lg p-4 bg-white shadow">
+          <h2 class="font-semibold mb-4">Acción {{ i + 1 }}</h2>
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Nombre de la acción:</label>
+          <input formControlName="name_action" class="input input-bordered w-full" />
+          @if (action.get('name_action')?.touched && action.get('name_action')?.invalid){
+          <div class="text-red-600 text-sm">
+            El nombre de la acción es obligatorio
+          </div>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Origen:</label>
+          <select class="input input-bordered w-full " formControlName="origin" >
+            <option>Recomendación ACCUA</option>
+            <option>Propuesta CGCC</option>
+          </select>
+          @if (action.get('origin')?.touched && action.get('origin')?.invalid){
+          <div class="text-red-600 text-sm">
+            El origen es obligatorio
+          </div>
+          }
+          @if(action.get('origin')?.value === 'Recomendación ACCUA') {
+            <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Recomendación/es ACCUA:</label>
+            <textarea formControlName="accua_recommendations" class="textarea textarea-bordered w-full"></textarea>
+          }
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Criterio/s de la Guía IMPLANTA en el que se incardina la acción:</label>
+          <div class="space-y-2">
+            @for (criterio of criteriosImplanta; track $index) {
+              <label class="flex items-center space-x-2">
+                <input
+                  type="checkbox"
+                  class="checkbox checkbox-primary"
+                  [checked]="action.get('criterios')?.value.includes(criterio)"
+                  (change)="onCriterioChange($event, i, criterio)"
+                />
+                <span>{{ criterio }}</span>
+              </label>
+            }
+            @if (action.get('criterios')?.touched && action.get('criterios')?.invalid){
+            <div class="text-red-600 text-sm">
+              Criterio/s de la Guía IMPLANTA en el que se incardina la acción es obligatorio.
+            </div>
+            }
+          </div>
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Descripción:</label>
+          <textarea formControlName="description_action" class="textarea textarea-bordered w-full"></textarea>
+          @if (action.get('description_action')?.touched && action.get('description_action')?.invalid){
+          <div class="text-red-600 text-sm">
+            La descripción de la acción es obligatoria
+          </div>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Ámbito:
+          </label>
+          <input formControlName="scope" class="input input-bordered w-full" />
+          @if (action.get('scope')?.touched && action.get('scope')?.invalid){
+          <div class="text-red-600 text-sm">
+            La ámbito es obligatorio
+          </div>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Objetivos:</label>
+          <input formControlName="objectives" class="input input-bordered w-full" />
+          @if (action.get('objectives')?.touched && action.get('objectives')?.invalid){
+          <div class="text-red-600 text-sm">
+            Los objetivos son obligatorios
+          </div>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Prioridad:
+          </label>
+          <select formControlName="priority" class="input input-bordered w-full">
+            <option value="">Selecciona prioridad</option>
+            <option value="Alta">Alta</option>
+            <option value="Media">Media</option>
+            <option value="Baja">Baja</option>
+          </select>
+          @if (action.get('priority')?.touched && action.get('priority')?.invalid){
+          <div class="text-red-600 text-sm">
+            La prioridad es obligatoria
+          </div>
+          }
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Fecha de inicio:
+          </label>
+          <input type="date" formControlName="start_date" class="input input-bordered w-full" />
+          @if (action.get('start_date')?.touched && action.get('start_date')?.invalid){
+            <div class="text-red-600 text-sm">
+              La fecha de inicio es obligatoria
+            </div>
+          }
+
+          <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">
+            Fecha de fin:
+          </label>
+          <input type="date" formControlName="end_date" class="input input-bordered w-full" />
+          @if (action.get('end_date')?.touched && action.get('end_date')?.invalid){
+            <div class="text-red-600 text-sm">
+              La fecha de fin es obligatoria
+            </div>
+          }
+          <div formArrayName="indicators" class="mt-4 space-y-4">
+            <h3 class="font-semibold">Indicadores</h3>
+            @for (indicator of getIndicators(i).controls; track indicator; let j = $index) {
+            <div [formGroupName]="j" class="border p-3 rounded-md bg-gray-50">
+              <h2 class="font-semibold mb-4">Indicador {{ j + 1 }}</h2>
+              <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Nombre del indicador:</label>
+              <input formControlName="name" class="input input-bordered w-full" />
+              @if (indicator.get('name')?.touched && indicator.get('name')?.invalid){
+              <div class="text-red-600 text-sm">
+                El nombre del indicador es obligatorio
+              </div>
+              }
+
+              <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Valor inicial:</label>
+              <input formControlName="start_value" class="input input-bordered w-full" />
+              @if (indicator.get('start_value')?.touched && indicator.get('start_value')?.invalid){
+              <div class="text-red-600 text-sm">
+                El valor inicial es obligatorio
+              </div>
+              }
+
+              <label class="label bg-red-700 rounded p-2 border font-bold text-white block mb-1 text-[15px]">Valor objetivo:</label>
+              <input formControlName="objective_value" class="input input-bordered w-full" />
+              @if (indicator.get('objective_value')?.touched && indicator.get('objective_value')?.invalid){
+              <div class="text-red-600 text-sm">
+                El valor objetivo es obligatorio
+              </div>
+              }
+
+              <button type="button" class="btn btn-error btn-sm mt-2" (click)="removeIndicator(i, j)">Eliminar
+                indicador</button>
+            </div>
+            }
+            <button type="button" class="btn btn-neutral btn-sm mt-3" (click)="addIndicator(i)">Añadir
+              indicador</button>
+          </div>
+
+          <button type="button" class="btn btn-error btn-sm mt-4" (click)="removeAction(i)">Eliminar acción</button>
+        </div>
+        }
+      </div>
+
+      <button type="button" class="btn btn-primary" (click)="addAction()">Añadir acción</button>
+
+      <div class=" flex flex-row justify-center align-center gap-6">
+        <button type="submit" class="btn btn-success text-white mt-4">
+          {{ isEdit ? 'Modificar' : 'Crear' }}
+        </button>
+        <app-cancel-button route="/plans"/>
+      </div>
+
+
+    </form>
+    @if(errorMessage()){
+      <p class="text-red-600 mt-5">{{errorMessage()}}</p>
+    }
+  </div>
+</section>
