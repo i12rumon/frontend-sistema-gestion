@@ -59,6 +59,12 @@
   </table>
 
 </div>
+@if(errorMessage()){
+  <section class=" flex flex-col items-center justify-center w-[80vw] card p-4 bg-gray-200 border mb-5">
+    <p class="text-red-500">{{errorMessage()}}</p>
+  </section>
+}
+
 <section class=" flex flex-col items-center justify-center w-[80vw] card p-4 bg-gray-200 border">
     <h1 class="font-bold">Nota importante</h1>
     <p> El administrador y el Servicio de Calidad no pueden tener ningún Título, Centro , Master o Doctorado asociado</p>

@@ -33,7 +33,7 @@
             }
           }
 
-          @if(user()?.role_id === 3 && !this.router.url.includes('modify-profile')){
+          @if(user()?.role_id !== 2 && !this.router.url.includes('modify-profile')){
               <label class="label bg-red-700 text-white rounded p-2 border font-bold text-[15px]">Centro</label>
               <select class="form-control input w-full" formControlName="degree">
               @for (degree of degrees(); track degree.degree_id) {

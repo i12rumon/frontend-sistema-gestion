@@ -19,7 +19,7 @@ export class ListUsersComponent implements OnInit{
         this.users.set(response.users.filter(user => user.role_id !== "Administrador"));
       },
       error: (err) =>{
-        this.errorMessage.set(err.message)
+        this.errorMessage.set(err.error?.Error || 'Error desconocido');
       }
     })
   }
@@ -30,7 +30,7 @@ export class ListUsersComponent implements OnInit{
         this.users.set(this.users().filter(user => user.user_id !== id));
       },
       error: (err) =>{
-        this.errorMessage.set(err.message)
+        this.errorMessage.set(err.error?.Error || 'Error desconocido');
       }
     });
   }

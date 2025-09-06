@@ -6,7 +6,7 @@
         CREAR NUEVA SOLICITUD
       </h1>
       <form class="fieldset" [formGroup]="myForm" (ngSubmit)="onRegister()" >
-          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px] text-white">Detalles de la financiación</label>
+          <label class="label bg-red-700 rounded p-2 border font-bold text-[15px] text-white">Detalles de los gastos</label>
           <input type="text" class="form-control input w-full" formControlName="detailsFinancing"  placeholder="Introduzca los detalles de la financiación"/>
           @if( isInvalid('detailsFinancing')){
             <p class="text-red-700">{{getErrorText('detailsFinancing')}}</p>
@@ -20,7 +20,7 @@
           }
 
           <label class="label bg-red-700 rounded p-2 border text-white font-bold text-[15px]">
-            Cantidad solicitada
+            Cantidad solicitada (en euros)
           </label>
           <input type="number" class="form-control input w-full" formControlName="solicitedAmount"/>
           @if(isInvalid('solicitedAmount')){

@@ -28,7 +28,8 @@ export class ListPlansComponent {
         if(this.user()?.role_id===3){
           this.planService.plans().subscribe({
             next: (response) => {
-              this.plans.set(response.plans);
+              const orderedPlans = response.plans.sort((a, b) => b.academic_year.localeCompare(a.academic_year));
+              this.plans.set(orderedPlans);
             },
             error: (err) =>{
               this.errorMessage.set(err.message)
@@ -39,8 +40,8 @@ export class ListPlansComponent {
         if(this.user()?.role_id===2){
           this.planService.nPlans().subscribe({
             next: (response) => {
-              console.log(response.plans)
-              this.plans.set(response.plans);
+              const orderedPlans = response.plans.sort((a, b) => b.academic_year.localeCompare(a.academic_year));
+              this.plans.set(orderedPlans);
             },
             error: (err) =>{
               this.errorMessage.set(err.message)
