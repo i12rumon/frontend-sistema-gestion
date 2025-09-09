@@ -8,8 +8,8 @@ import { Degree } from '../../../shared/interfaces/degree.interface';
 import { FormUtils } from '../../../utils/form-utils';
 import { Degrees } from '../../../shared/interfaces/degrees.interface';
 import { responseCreate } from '../../../shared/interfaces/response-create-user';
-import { CommonModule } from '@angular/common';
 import { CancelButtonComponent } from "../../../shared/components/cancel-button/cancel-button.component";
+import { ImprovementPlansService } from '../../../improvement-plan/services/improvement-plans.service';
 
 @Component({
   selector: 'app-form-modify',
@@ -25,6 +25,7 @@ export class FormModifyComponent {
   router= inject(Router);
   private userService= inject(UserService);
   private dataService = inject(DataService);
+  private improvementPlansService = inject(ImprovementPlansService);
   user = signal<UserItem|null>(null);
   degrees = signal<Degree[]>([]);
   myForm : FormGroup = this.fb.group({
@@ -56,6 +57,7 @@ export class FormModifyComponent {
         })
       })
     }
+
     if(this.router.url.includes('modify-profile')){
       this.userService.getProfileUser().subscribe({
         next:(response) =>{
@@ -65,6 +67,17 @@ export class FormModifyComponent {
           this.myForm.get('password')?.updateValueAndValidity();
           this.myForm.get('validatePassword')?.clearValidators();
           this.myForm.get('validatePassword')?.updateValueAndValidity();
+          this.improvementPlansService.plans().subscribe({
+            next: (plansResponse) => {
+              const hasPlans = plansResponse.plans.some(plan => plan.user_id === response.user_id);
+              if (hasPlans) {
+                this.myForm.get('degree')?.disable();
+              }
+            },
+            error: () => {
+              this.errorMessage.set('No se pudo comprobar si el usuario tiene planes de mejora.');
+            }
+          });
         }
       })
     }

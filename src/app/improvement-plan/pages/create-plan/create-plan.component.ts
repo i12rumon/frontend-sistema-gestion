@@ -60,8 +60,34 @@ export class CreatePlanComponent {
       this.isEdit = true;
       this.loadPlan(this.plan_id()!);
     }
+    else{
+
+    }
   }
 
+  getYearActiveAndValidate() {
+  this.yearService.academic_years().subscribe((data) => {
+    const activeYear = data.academic_years.find((y) => y.is_active);
+    if (activeYear) {
+      this.yearActive.set(activeYear.year); 
+
+      this.planService.nPlans().subscribe((plans) => {
+        const exists = plans.plans.some(
+          (p) => p.academic_year === activeYear.year 
+        );
+
+        if (exists) {
+          // bloqueamos formulario y mostramos mensaje
+          this.myForm.disable();
+          this.errorMessage.set(
+            `Ya existe un plan de mejora para el curso ${activeYear.year}. No es posible crear otro.`
+          );
+        }
+      });
+    }
+  });
+  }
+  
   get actions() {
     return this.myForm.get('actions') as FormArray;
   }
