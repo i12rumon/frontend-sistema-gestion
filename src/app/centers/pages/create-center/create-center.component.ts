@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angu
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { ActivatedRoute, Router } from '@angular/router';
-
 import { responseCreate } from '../../../shared/interfaces/response-create-user';
 import { FormUtils } from '../../../utils/form-utils';
 import { responseModCreDegree } from '../../../shared/interfaces/responseModCre.interface';
@@ -28,6 +27,7 @@ export class CreateCenterComponent {
     type: ['', [Validators.required]],
     name: ['',[Validators.required],],
   })
+  
   ngOnInit(){
     const id= this.route.snapshot.paramMap.get('degree_id');
     if(id){
